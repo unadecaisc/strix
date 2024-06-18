@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Alert, Button, Card } from 'flowbite-svelte';
+  import { Alert, Button, Card } from "flowbite-svelte";
 </script>
 
 <div class="container p-10">
