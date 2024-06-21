@@ -1,5 +1,5 @@
-import Configuraciones from "./lib/pages/routes/configuraciones.svelte";
-import Home from "./lib/pages/routes/Home.svelte";
+import Configuraciones from "./lib/pages/configuraciones.svelte";
+import Home from "./lib/pages/Home.svelte";
 
 const routes = {
     "/": Home,
