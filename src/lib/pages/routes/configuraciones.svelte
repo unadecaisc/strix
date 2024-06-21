@@ -13,7 +13,7 @@
         </p>
         <Button color="blue">Edit Profile</Button>
     </Card>
-    
+
     <h2 class="text-lg font-semibold mt-10 mb-4">Account Settings</h2>
     <Card>
         <h3 class="text-xl font-bold mb-2">Security</h3>
@@ -22,6 +22,6 @@
         </p>
         <Button color="red">Change Password</Button>
     </Card>
-    
-    
+
+
 </div>

@@ -9,9 +9,9 @@
 
 <div class="container p-10">
     <h1 class="p-2 font-semibold">Welcome to strix project using tailwind</h1>
-    
+
     <Alert color="blue">This is a flowbite component</Alert>
-    
+
     <div class="p-10">
         <Button>Default</Button>
         <Button color="alternative">Alternative</Button>
@@ -23,7 +23,7 @@
         <Button color="yellow">Yellow</Button>
         <Button color="purple">Purple</Button>
     </div>
-    
+
     <div class="p-10">
         <Card href="/cards">
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
