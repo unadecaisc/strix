@@ -1,8 +1,11 @@
 <script lang="ts">
   import { Link, Route, Router } from "svelte-routing";
   import routes from "./routes";
+  import Login from "./components/Login.svelte";
   let url = "";
 </script>
+
+<Login></Login>
 
 <Router {url}>
   <nav>
