@@ -1,24 +1,8 @@
 <script lang="ts">
   import { Link, Route, Router } from "svelte-routing";
   import routes from "./routes";
-  import ProtectedRoute from './lib/pages/ProtectedRoute.svelte';
   let url = "";
 </script>
-
-<style>
-  nav {
-    background-color: #2d3748;
-    padding: 1rem;
-  }
-  nav a {
-    color: white;
-    margin-right: 1rem;
-    text-decoration: none;
-  }
-  nav a:hover {
-    text-decoration: underline;
-  }
-</style>
 
 <Router {url}>
   <nav>
