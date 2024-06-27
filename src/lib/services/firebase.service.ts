@@ -1,13 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import config from "./firebase-config.json";
 
-const FIREBASE_CONFIG = window.atob(import.meta.env.VITE_FIREBASE_CONFIG);
-
-export function getFirebaseConfig(configKey: string) {
-  return JSON.parse(configKey);
-}
-
-const app = initializeApp(getFirebaseConfig(FIREBASE_CONFIG));
+const app = initializeApp(config);
 
 export function getAuthInstance() {
   return getAuth(app);
