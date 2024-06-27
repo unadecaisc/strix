@@ -1,35 +1,56 @@
 <script>
-  import { Alert, Button, Card } from "flowbite-svelte";
+  import {
+    Button,
+    Dropdown,
+    DropdownItem,
+    Breadcrumb,
+    BreadcrumbItem,
+  } from "flowbite-svelte";
+
+  import { BarsOutline } from "flowbite-svelte-icons";
 </script>
 
-<div class="container p-10">
-  <h1 class="p-2 font-semibold">Welcome to strix project using tailwind</h1>
+<div class="container px-7 h-screen">
+  <div class="flex justify-between items-center">
+    <div>
+      <Button color="light" class="h-10">
+        <BarsOutline class="w-5 h-5 pt-1" /> menu
+      </Button>
 
-  <Alert color="blue">This is a flowbite component</Alert>
+      <Dropdown>
+        <DropdownItem>Configuraciones</DropdownItem>
+        <DropdownItem>Solicitudes</DropdownItem>
+        <DropdownItem>Horas beca</DropdownItem>
+        <DropdownItem>Reportes</DropdownItem>
+      </Dropdown>
+    </div>
+    <div class="grow mx-2">
+      <Breadcrumb color="light" class="h-10" solid>
+        <BreadcrumbItem href="/">Inicio</BreadcrumbItem>
 
-  <div class="p-10">
-    <Button>Default</Button>
-    <Button color="alternative">Alternative</Button>
-    <Button color="dark">Dark</Button>
-    <Button color="light">Light</Button>
-    <Button color="blue">Blue</Button>
-    <Button color="green">Green</Button>
-    <Button color="red">Red</Button>
-    <Button color="yellow">Yellow</Button>
-    <Button color="purple">Purple</Button>
+        <BreadcrumbItem></BreadcrumbItem>
+      </Breadcrumb>
+    </div>
+    <Button color="light" class="h-10">
+      <BarsOutline class="w-5 h-5 pt-1" /> paquito fernandez
+    </Button>
+
+    <Dropdown>
+      <DropdownItem class="text-red-500">cerrar sesion</DropdownItem>
+    </Dropdown>
   </div>
 
-  <div class="p-10">
-    <Card href="/cards">
-      <h5
-        class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-      >
-        Noteworthy technology acquisitions 2021
-      </h5>
-      <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
-        Here are the biggest enterprise technology acquisitions of 2021 so far,
-        in reverse chronological order.
-      </p>
-    </Card>
+  <div class="container mt-4 px-4 py-4 bg-white rounded-lg">
+    <h1>something goes here...</h1>
+  </div>
+
+  <div class="container h-3/4 mt-4 px-4 py-4 bg-white rounded-lg">
+    <h1>something goes here...</h1>
   </div>
 </div>
+
+<style>
+  :global(body) {
+    background: rgba(234, 241, 251, 1);
+  }
+</style>
