@@ -1,34 +1,58 @@
 <script lang="ts">
-  import { login } from './authStore';
-  import { navigate } from 'svelte-routing';
+  import { navigate } from "svelte-routing";
+  import { authenticate } from "../../stores/user.store";
+  import { InfoCircleSolid } from "flowbite-svelte-icons";
+  import { Card, Button, Label, Input, Alert } from "flowbite-svelte";
 
-  let username = '';
-  let password = '';
-  let error = '';
+  let email = "";
+  let password = "";
+  let error = "";
 
-  function handleLogin() {
-    if (login(username, password)) {
-      navigate('/configuraciones');
+  async function handleLogin() {
+    if (await authenticate(email, password)) {
+      navigate("/configuraciones");
     } else {
-      error = 'Invalid credentials';
+      error = "Datos Incorrectos";
     }
   }
 </script>
 
-<div class="container mx-auto p-10">
-  <h1 class="text-2xl font-bold mb-4">Login</h1>
-  {#if error}
-    <p class="text-red-500">{error}</p>
-  {/if}
-  <form on:submit|preventDefault={handleLogin} class="space-y-4">
-    <div>
-      <label class="block">Username</label>
-      <input type="text" bind:value={username} class="border p-2 w-full" />
-    </div>
-    <div>
-      <label class="block">Password</label>
-      <input type="password" bind:value={password} class="border p-2 w-full" />
-    </div>
-    <button type="submit" class="bg-blue-500 text-white p-2 rounded">Login</button>
-  </form>
+<div class="container flex justify-center items-center h-screen">
+  <Card class="">
+    <form
+      class="flex flex-col space-y-6"
+      on:submit|preventDefault={handleLogin}
+    >
+      <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+        Bienvenido | Inicia sesión
+      </h3>
+      <Label class="space-y-2">
+        <span>Correo </span>
+        <Input
+          type="email"
+          name="email"
+          placeholder="john@mail.com"
+          bind:value={email}
+          required
+        />
+      </Label>
+      <Label class="space-y-2">
+        <span>contraseña</span>
+        <Input
+          type="password"
+          name="password"
+          placeholder="•••••"
+          required
+          bind:value={password}
+        />
+      </Label>
+
+      <Button color="blue" type="submit" class="w-full">Inciar Sesion</Button>
+      {#if error}
+        <Alert color="red">
+          <InfoCircleSolid slot="icon" class="w-5 h-5" /> {error}</Alert
+        >
+      {/if}
+    </form>
+  </Card>
 </div>

@@ -1,20 +1,25 @@
 <script lang="ts">
   import { Link, Route, Router } from "svelte-routing";
   import routes from "./routes";
+  import ProtectedRoute from "$lib/components/ProtectedRoute.svelte";
+  import { onMount } from "svelte";
+  import { userStore } from "./stores/user.store";
+  import { get } from "svelte/store";
   let url = "";
+
+  onMount(async () => {
+    console.log("onMount");
+    const user = get(userStore);
+    console.log(user);
+  });
 </script>
 
 <Router {url}>
-  <nav>
-    <Link to="/">Home</Link>
-    <Link to="/configuraciones">Configuraciones</Link>
-    <Link to="/login">Login</Link>
-  </nav>
   <div class="container mx-auto mt-8">
     <Router {url}>
       {#each routes as { component, path, authRequired }}
         {#if authRequired}
-          <Route path={path} let:params>
+          <Route {path} let:params>
             <ProtectedRoute {component} />
           </Route>
         {:else}

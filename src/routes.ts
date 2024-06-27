@@ -16,7 +16,6 @@ const routes: RouterType[] = [
   {
     path: "/configuraciones",
     component: Config,
-    authRequired: true,
   },
   {
     path: "/login",
