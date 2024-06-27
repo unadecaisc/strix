@@ -1,11 +1,17 @@
 <script lang="ts">
   import { Link, Route, Router } from "svelte-routing";
   import routes from "./routes";
-  import Menu from "./components/menu.svelte";
+  import BreadCrumb from "./lib/components/BreadCrumb.svelte";
+  import type { BreadCrumItemType } from "./lib/components/types";
   let url = "";
+
+  const breadCrumItems: BreadCrumItemType[] = [
+    { title: "Home", path: "/", isHome: true },
+    { title: "Config", path: "/Config" },
+  ];
 </script>
 
-<Menu></Menu>
+<BreadCrumb items={breadCrumItems}></BreadCrumb>
 
 <Router {url}>
   <nav>
