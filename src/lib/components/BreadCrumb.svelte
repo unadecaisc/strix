@@ -6,8 +6,9 @@
 </script>
 
 <Breadcrumb
-  aria-label="Solid background breadcrumb example"
-  class="bg-gray-50 py-3 px-5 dark:bg-gray-900"
+  olClass="flex items-center space-x-2 h-4 bg-white "
+  solid
+  navClass="text-gray-500  border"
 >
   {#each items as item}
     <BreadcrumbItem href={item.path} home={item.isHome}
