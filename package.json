@@ -19,7 +19,7 @@
     "@tsconfig/svelte": "^5.0.4",
     "autoprefixer": "^10.4.19",
     "flowbite": "^2.3.0",
-    "flowbite-svelte": "^0.46.2",
+    "flowbite-svelte": "^0.46.5",
     "flowbite-svelte-icons": "^1.6.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
