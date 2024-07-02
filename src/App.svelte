@@ -6,6 +6,8 @@
   import { onMount } from "svelte";
   import { userStore } from "./stores/user.store";
   import { get } from "svelte/store";
+  import CreateMailingListModal from "$lib/components/ModalMailingList.svelte";
+
   let url = "";
 
   onMount(async () => {
@@ -16,6 +18,7 @@
 </script>
 
 <Router {url}>
+  <CreateMailingListModal />
   <Layout>
     {#each routes as { component, path, authRequired }}
       {#if authRequired}
