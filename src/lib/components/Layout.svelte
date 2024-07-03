@@ -52,6 +52,6 @@
 
 <style>
   :global(body) {
-    background: rgba(234, 241, 251, 1);
+    background: #eaf1fb;
   }
 </style>
