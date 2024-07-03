@@ -10,11 +10,16 @@
   import { BarsOutline } from "flowbite-svelte-icons";
   import BreadCrumb from "./BreadCrumb.svelte";
   import { type BreadCrumItemType } from "./types";
+  import { navigate } from "svelte-routing";
 
   const breadCrumItems: BreadCrumItemType[] = [
-    { title: "Home", path: "/", isHome: true },
+    { title: "Home", path: "/" },
     { title: "Config", path: "/Config" },
   ];
+
+  function handleMenu(path: string) {
+    navigate(path);
+  }
 </script>
 
 <div class="h-screen px-8 pt-4">
@@ -25,10 +30,10 @@
       </Button>
 
       <Dropdown>
-        <DropdownItem>Configuraciones</DropdownItem>
-        <DropdownItem>Solicitudes</DropdownItem>
-        <DropdownItem>Horas beca</DropdownItem>
-        <DropdownItem>Reportes</DropdownItem>
+        <DropdownItem href="/configuraciones">Configuraciones</DropdownItem>
+        <DropdownItem href="/solicitudes">Solicitudes</DropdownItem>
+        <DropdownItem href="/horas-beca">Horas beca</DropdownItem>
+        <DropdownItem href="/reportes">Reportes</DropdownItem>
       </Dropdown>
     </div>
     <div class="grow mx-2">
@@ -42,14 +47,7 @@
       <DropdownItem class="text-red-500">cerrar sesion</DropdownItem>
     </Dropdown>
   </div>
-
-  <div class="mt-4 px-4 py-4 bg-white rounded-lg">
-    <slot name="tabs">tabs not provided...</slot>
-  </div>
-
-  <div class="!h-[80%] mt-4 px-4 py-4 bg-white rounded-lg">
-    <slot name="content">Content not provided...</slot>
-  </div>
+  <slot />
 </div>
 
 <style>

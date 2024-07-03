@@ -1,25 +1,45 @@
-<script>
-  import { Button, Card } from "flowbite-svelte";
+<script lang="ts">
+  import PageContainer from "$lib/components/PageContainer.svelte";
+  import General from "./configurations/General.svelte";
+  import type { PageConfigType } from "$lib/components/types";
+  import Periods from "./configurations/Periods.svelte";
+  import Departments from "./configurations/Departments.svelte";
+  import Users from "./configurations/Users.svelte";
+  import Roles from "./configurations/Roles.svelte";
+  import Permissions from "./configurations/Permissions.svelte";
+  import Pricing from "./configurations/Pricing.svelte";
+
+  const config: PageConfigType[] = [
+    {
+      title: "General",
+      component: General,
+      open: true,
+    },
+    {
+      title: "Departamentos",
+      component: Departments,
+    },
+    {
+      title: "Usuarios",
+      component: Users,
+    },
+    {
+      title: "Roles",
+      component: Roles,
+    },
+    {
+      title: "Permisos",
+      component: Permissions,
+    },
+    {
+      title: "Periodos",
+      component: Periods,
+    },
+    {
+      title: "Precios",
+      component: Pricing,
+    },
+  ];
 </script>
 
-<h1>Configuraciones</h1>
-
-<div class="container p-10">
-  <h2 class="text-lg font-semibold mb-4">User Settings</h2>
-  <Card>
-    <h3 class="text-xl font-bold mb-2">Profile</h3>
-    <p class="text-gray-700 dark:text-gray-400 mb-4">
-      Update your personal information.
-    </p>
-    <Button color="blue">Edit Profile</Button>
-  </Card>
-
-  <h2 class="text-lg font-semibold mt-10 mb-4">Account Settings</h2>
-  <Card>
-    <h3 class="text-xl font-bold mb-2">Security</h3>
-    <p class="text-gray-700 dark:text-gray-400 mb-4">
-      Manage your password and security settings.
-    </p>
-    <Button color="red">Change Password</Button>
-  </Card>
-</div>
+<PageContainer tabs={config}></PageContainer>

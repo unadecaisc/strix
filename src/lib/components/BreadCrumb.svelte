@@ -11,8 +11,8 @@
   navClass="text-gray-500  border"
 >
   {#each items as item}
-    <BreadcrumbItem href={item.path} home={item.isHome}
-      >{item.title}</BreadcrumbItem
+    <BreadcrumbItem href={item.path} home={item.isHome}>
+      {item.title}</BreadcrumbItem
     >
   {/each}
 </Breadcrumb>
