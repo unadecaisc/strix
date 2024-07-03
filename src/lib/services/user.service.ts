@@ -8,7 +8,7 @@ export type paginationQuery = {
   size?: number;
 };
 
-export type GetUsersQuery = Pagination & {};
+export type GetUsersQuery = paginationQuery & {};
 
 export async function getUsers(query?: GetUsersQuery) {
   try {
