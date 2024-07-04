@@ -26,11 +26,10 @@ enum RequestStatus {
 }
 
 type GlobalSetting = {
-  id: number;
-  key: string;
-  value: string;
-  createdAt: Date;
-  updatedAt: Date;
+  defaultPrice: string;
+  studentsCode: string;
+  scolarshipCode: string;
+  tithCode: string;
 };
 
 type MailingList = {
@@ -169,4 +168,13 @@ type ScholarshipPayroll = {
   student: Student;
   department: Department;
   workHours: WorkHours[];
+};
+
+type ApiPagination<T> = {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  next_page?: number;
+  prev_page?: number;
 };
