@@ -1,7 +1,6 @@
-import type { Pagination } from "flowbite-svelte";
 import api from "./api-config";
 
-const DEFAULT_ENDPOINT = "/global-settings";
+const DEFAULT_ENDPOINT = "/global-configs";
 
 export type paginationQuery = {
   page?: number;
@@ -22,12 +21,9 @@ export async function getConfig(query?: GetUsersQuery) {
   }
 }
 
-export async function updateUser(id: number, data: any) {
+export async function updateConfig(data: GlobalSetting) {
   try {
-    const result = await api.put<GlobalSetting>(
-      `${DEFAULT_ENDPOINT}/${id}`,
-      data,
-    );
+    const result = await api.put<GlobalSetting>(`${DEFAULT_ENDPOINT}`, data);
     return result.data;
   } catch (error) {
     return null;

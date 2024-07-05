@@ -1,4 +1,3 @@
-import type { Pagination } from "flowbite-svelte";
 import api from "./api-config";
 
 const DEFAULT_ENDPOINT = "/users";
