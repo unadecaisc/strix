@@ -8,6 +8,7 @@
   import Roles from "./configurations/Roles.svelte";
   import Permissions from "./configurations/Permissions.svelte";
   import Pricing from "./configurations/Pricing.svelte";
+  import Precios from "$lib/components/precios.svelte";
 
   const config: PageConfigType[] = [
     {
@@ -43,3 +44,4 @@
 </script>
 
 <PageContainer tabs={config}></PageContainer>
+<Precios></Precios>
