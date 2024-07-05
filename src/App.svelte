@@ -6,6 +6,8 @@
   import { onMount } from "svelte";
   import { userStore } from "./stores/user.store";
   import { get } from "svelte/store";
+  import MailingList from "./lib/components/MailingList.svelte";
+  import General from "$lib/pages/configurations/General.svelte";
 
   let url = "";
 
@@ -17,6 +19,7 @@
 </script>
 
 <Router {url}>
+
   <Layout>
     {#each routes as { component, path, authRequired }}
       {#if authRequired}
@@ -28,8 +31,10 @@
       {/if}
     {/each}
     <!-- Ruta para manejar 404 -->
+    
     <Route path="*">
       <h1 class="text-center text-2xl font-semibold">404 - Page Not Found</h1>
     </Route>
   </Layout>
+  
 </Router>
