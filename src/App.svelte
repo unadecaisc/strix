@@ -1,4 +1,5 @@
 <script lang="ts">
+  import GetMalingList from "./lib/components/getMaling-list.svelte";
   import { Link, Route, Router } from "svelte-routing";
   import Layout from "./lib/components/Layout.svelte";
   import routes from "./routes";
