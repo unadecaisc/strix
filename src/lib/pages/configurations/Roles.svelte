@@ -1,4 +1,5 @@
 <script>
+  import { fetchRoles } from "$lib/services/roles.service";
   import { onMount } from "svelte";
   import {
     Button,
@@ -25,31 +26,22 @@
    * @type {any[]}
    */
   let roles = [];
+  onMount(async () => {
+    roles = await fetchRoles(); // Assuming fetchRoles returns an array of roles
+  });
 
-  const API_URL = import.meta.env.VITE_API_URL; // Access VITE_API_URL from environment variables
-
-  async function fetchRoles() {
-    try {
-      const response = await fetch(`${API_URL}/roles`); // Fetch roles from VITE_API_URL
-      if (!response.ok) {
-        throw new Error("Failed to fetch roles");
-      }
-      const { data } = await response.json();
-      roles = data; // Assign roles data to roles array
-    } catch (error) {
-      console.error("Error fetching roles:", error);
-      // Handle error gracefully
-    }
-  }
-
-  onMount(fetchRoles);
-
+  /**
+   * @param {any} option
+   */
   function handleSelect(option) {
     if (!selectedOptions.includes(option)) {
       selectedOptions = [...selectedOptions, option];
     }
   }
 
+  /**
+   * @param {any} option
+   */
   function removeOption(option) {
     selectedOptions = selectedOptions.filter((item) => item !== option);
   }
@@ -70,15 +62,7 @@
     selectedOptions = [];
     nameError = "";
   }
-
-  function handleClickOutside(event) {
-    if (!event.target.closest(".dropdown-container")) {
-      dropdownOpen = false;
-    }
-  }
 </script>
-
-<svelte:window on:click={handleClickOutside} />
 
 <Button on:click={() => (defaultModal = true)}>Agregar Roles</Button>
 
