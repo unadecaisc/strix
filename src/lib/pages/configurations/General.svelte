@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import { getConfig, updateConfig } from "../../services/config.service";
   import GeneralConfigForm from "../../components/GeneralConfigForm.svelte";
+  import MailingList from "$lib/components/mailingList.svelte";
 
   let globalSetting: GlobalSetting | null = null;
   let error: string | null = null;
@@ -52,3 +53,5 @@
   on:update={handleUpdate}
   {isLoading}
 ></GeneralConfigForm>
+<br /><br />
+<MailingList />
