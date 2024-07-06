@@ -1,4 +1,6 @@
-type UserRole = {
+import type { LinkType } from "flowbite-svelte";
+
+export type UserRole = {
   id: number;
   name: string;
   allowedPermissions: string[];
@@ -6,33 +8,33 @@ type UserRole = {
   updatedAt: string;
 };
 
-enum WorkHoursStatus {
+export enum WorkHoursStatus {
   PENDING = "PENDING",
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
 }
 
-enum PeriodStatus {
+export enum PeriodStatus {
   PENDING = "PENDING",
   ACTIVE = "ACTIVE",
   FINISHED = "FINISHED",
   CLOSED = "CLOSED",
 }
 
-enum RequestStatus {
+export enum RequestStatus {
   PENDING = "PENDING",
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
 }
 
-type GlobalSetting = {
+export type GlobalSetting = {
   defaultPrice: string;
   studentsCode: string;
   scolarshipCode: string;
   tithCode: string;
 };
 
-type MailingList = {
+export type MailingList = {
   id: number;
   name: string;
   email: string;
@@ -41,7 +43,7 @@ type MailingList = {
   updatedAt: Date;
 };
 
-type Period = {
+export type Period = {
   id: number;
   name: string;
   start: Date;
@@ -53,7 +55,7 @@ type Period = {
   scholarshipPayroll: ScholarshipPayroll[];
 };
 
-type Role = {
+export type Role = {
   id: number;
   name: string;
   allowedPermissions: string[];
@@ -62,7 +64,7 @@ type Role = {
   users: User[];
 };
 
-type Pricing = {
+export type Pricing = {
   id: number;
   price: number;
   active: boolean;
@@ -71,7 +73,7 @@ type Pricing = {
   departments: Department[];
 };
 
-type Department = {
+export type Department = {
   id: number;
   name: string;
   code: string;
@@ -85,7 +87,7 @@ type Department = {
   scholarshipPayroll: ScholarshipPayroll[];
 };
 
-type User = {
+export type User = {
   id: number;
   name: string;
   email: string;
@@ -101,7 +103,7 @@ type User = {
   scholarshipPayroll: ScholarshipPayroll[];
 };
 
-type StudentOnDepartment = {
+export type StudentOnDepartment = {
   id: number;
   studentId: number;
   departmentId: number;
@@ -112,7 +114,7 @@ type StudentOnDepartment = {
   department: Department;
 };
 
-type Student = {
+export type Student = {
   id: number;
   name: string;
   email: string;
@@ -125,7 +127,7 @@ type Student = {
   ScholarshipPayroll: ScholarshipPayroll[];
 };
 
-type WorkHours = {
+export type WorkHours = {
   id: number;
   name: string;
   start: Date;
@@ -148,7 +150,7 @@ type WorkHours = {
   becaPayroll?: ScholarshipPayroll;
 };
 
-type ScholarshipPayroll = {
+export type ScholarshipPayroll = {
   id: number;
   hours: number;
   amount: number;
@@ -170,7 +172,7 @@ type ScholarshipPayroll = {
   workHours: WorkHours[];
 };
 
-type ApiPagination<T> = {
+export type ApiPagination<T> = {
   data: T[];
   total: number;
   page: number;
@@ -178,3 +180,17 @@ type ApiPagination<T> = {
   next_page?: number;
   prev_page?: number;
 };
+
+export type FormatterFunction<T> = (value: T) => string;
+
+export type TableHeader = {
+  field: string;
+  name: string;
+  formatter?: FormatterFunction<any>;
+};
+
+export type TablePagination = {
+  page: number;
+  pages?: LinkType[];
+};
+export type TableData<T> = T[];
