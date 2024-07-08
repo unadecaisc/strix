@@ -1,3 +1,4 @@
+import type { ApiPagination, User } from "../types";
 import api from "./api-config";
 
 const DEFAULT_ENDPOINT = "/users";
@@ -7,11 +8,13 @@ export type paginationQuery = {
   size?: number;
 };
 
-export type GetUsersQuery = paginationQuery & {};
+export type GetUsersQuery = paginationQuery & {
+  search?: string;
+};
 
 export async function getUsers(query?: GetUsersQuery) {
   try {
-    const result = await api.get<User>(DEFAULT_ENDPOINT, {
+    const result = await api.get<ApiPagination<User>>(DEFAULT_ENDPOINT, {
       params: query,
     });
 
