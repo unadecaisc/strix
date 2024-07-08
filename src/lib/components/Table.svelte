@@ -25,11 +25,9 @@
     dispatch("rowClick", data);
   }
   function previous() {
-    console.log("◉ ▶ previous ▶ pagination:", pagination);
     dispatch("previous");
   }
   function next() {
-    console.log("◉ ▶ previous ▶ pagination:", pagination);
     dispatch("next");
   }
 </script>
