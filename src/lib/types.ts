@@ -191,6 +191,8 @@ export type TableHeader = {
 
 export type TablePagination = {
   page: number;
+  next_page?: number;
+  prev_page?: number;
   pages?: LinkType[];
 };
 export type TableData<T> = T[];
