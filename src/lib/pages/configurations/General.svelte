@@ -1,5 +1,12 @@
 <script lang="ts">
-  import { Alert, TableBodyRow, TableBodyCell, Badge } from "flowbite-svelte";
+  import {
+    Alert,
+    TableBodyRow,
+    TableBodyCell,
+    Badge,
+    Button,
+  } from "flowbite-svelte";
+  import { PlusOutline } from "flowbite-svelte-icons";
   import { onMount } from "svelte";
   import { getConfig, updateConfig } from "../../services/config.service";
   import GeneralConfigForm from "../../components/GeneralConfigForm.svelte";
@@ -11,6 +18,7 @@
   } from "../../types";
   import Table from "../../components/Table.svelte";
   import { getMailingList } from "../../services/mailing-list.service";
+  import MailinglistForm from "../../components/MailinglistForm.svelte";
 
   let globalSetting: GlobalSetting | null = null;
   let mailingList: MailingList[] = [];
@@ -18,11 +26,19 @@
   let error: string | null = null;
   let success: string | null = null;
   let isLoading = false;
+  let openModal = false;
+  let modalMode: "create" | "update" = "create";
 
+  let defaultMailList: MailingList = {
+    email: "",
+    name: "",
+    active: true,
+  };
+  let currentSelected: MailingList = defaultMailList;
   $: pagination = {
     page: 1,
-    pages: [],
   } as TablePagination;
+
   const tableHeaders: TableHeader[] = [
     { name: "Email", field: "email" },
     { name: "Nombre", field: "name" },
@@ -76,8 +92,31 @@
     pagination.page = pagination.prev_page ?? 1;
     reloadMailingList();
   }
+
+  function handleFormModal() {
+    openModal = true;
+  }
+  function handleUpdateModal(mailingList: MailingList) {
+    currentSelected = mailingList;
+    modalMode = "update";
+    openModal = true;
+  }
+
+  function handleCloseModal() {
+    console.log("close");
+    openModal = false;
+    currentSelected = defaultMailList;
+    modalMode = "create";
+    reloadMailingList();
+  }
 </script>
 
+<MailinglistForm
+  bind:open={openModal}
+  formMode={modalMode}
+  data={currentSelected}
+  on:close={handleCloseModal}
+></MailinglistForm>
 <div class="flex flex-col gap-6">
   <div class="flex-row w-auto mb-5">
     <div class="py-3">
@@ -95,8 +134,13 @@
       {isLoading}
     ></GeneralConfigForm>
   </div>
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col gap- p-2">
     <h1 class="text-xl font-bold">Notificaciones</h1>
+    <div class="mt-3 mb-3">
+      <Button size="xs" color="primary" on:click={handleFormModal}
+        ><PlusOutline /> Agregar</Button
+      >
+    </div>
     <Table
       data={mailingList}
       headers={tableHeaders}
@@ -104,7 +148,11 @@
       on:next={handleNext}
       on:previous={handlePrevious}
     >
-      <TableBodyRow slot="row" let:row>
+      <TableBodyRow
+        slot="row"
+        let:row
+        on:dblclick={() => handleUpdateModal(row)}
+      >
         <TableBodyCell>{row.email}</TableBodyCell>
         <TableBodyCell>{row.name}</TableBodyCell>
         <TableBodyCell>

@@ -1,3 +1,4 @@
+import type { GlobalSetting } from "../types";
 import api from "./api-config";
 
 const DEFAULT_ENDPOINT = "/global-configs";

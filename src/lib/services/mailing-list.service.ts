@@ -21,3 +21,26 @@ export async function getMailingList(query?: GetMailingListQuery) {
     return null;
   }
 }
+
+export async function createMalingList(body: MailingList) {
+  try {
+    const result = await api.post<MailingList>(DEFAULT_ENDPOINT, body);
+
+    return result.data;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function updateMailingList(id: number, body: MailingList) {
+  try {
+    const result = await api.put<MailingList>(
+      `${DEFAULT_ENDPOINT}/${id}`,
+      body,
+    );
+
+    return result.data;
+  } catch (error) {
+    return null;
+  }
+}
