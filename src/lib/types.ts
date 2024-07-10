@@ -35,12 +35,12 @@ export type GlobalSetting = {
 };
 
 export type MailingList = {
-  id: number;
+  id?: number;
   name: string;
   email: string;
   active: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type Period = {
@@ -74,17 +74,17 @@ export type Pricing = {
 };
 
 export type Department = {
-  id: number;
+  id?: number;
   name: string;
   code: string;
-  pricingId: number;
-  createdAt: Date;
-  updatedAt: Date;
-  pricing: Pricing;
-  users: User[];
-  students: StudentOnDepartment[];
-  hours: WorkHours[];
-  scholarshipPayroll: ScholarshipPayroll[];
+  pricingId?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  pricing?: Pricing;
+  users?: User[];
+  students?: StudentOnDepartment[];
+  hours?: WorkHours[];
+  scholarshipPayroll?: ScholarshipPayroll[];
 };
 
 export type User = {
