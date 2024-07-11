@@ -5,6 +5,7 @@
     TableBodyCell,
     Badge,
     Button,
+    Heading,
   } from "flowbite-svelte";
   import { PlusOutline } from "flowbite-svelte-icons";
   import { onMount } from "svelte";
@@ -117,11 +118,13 @@
   data={currentSelected}
   on:close={handleCloseModal}
 ></MailinglistForm>
-<div class="flex flex-col gap-6">
-  <div class="flex-row w-auto mb-5">
-    <div class="py-3">
-      <h1 class="text-xl font-bold">Configuracion General</h1>
-    </div>
+
+<div class="w-full h-full px-4 grid gap-3">
+  <div class="grid-flow-row">
+    <Heading tag="h3" class="mb-4">Configuracion General</Heading>
+  </div>
+  <div class="grid-flow-row">
+    <Heading tag="h5" class="mb-4">Configuracion Predeterminada</Heading>
     {#if error}
       <Alert type="error" dismissable>{error}</Alert>
     {/if}
@@ -134,8 +137,8 @@
       {isLoading}
     ></GeneralConfigForm>
   </div>
-  <div class="flex flex-col gap- p-2">
-    <h1 class="text-xl font-bold">Notificaciones</h1>
+  <div class="grid-flow-row">
+    <Heading tag="h5" class="mb-4">Notificaciones</Heading>
     <div class="mt-3 mb-3">
       <Button size="xs" color="primary" on:click={handleFormModal}
         ><PlusOutline /> Agregar</Button
