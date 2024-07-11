@@ -66,7 +66,7 @@
     {/if}
   </TableBody>
 </Table>
-<div class="flex flex-row-reverse">
+<div class="flex flex-row-reverse mt-4">
   {#if pagination}
     {#if pagination.next_page}
       <PaginationItem slot="next" on:click={next}>Next</PaginationItem>
