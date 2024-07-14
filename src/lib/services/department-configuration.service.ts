@@ -5,6 +5,7 @@ const DEFAULT_ENDPOINT = "/departments";
 
 export type paginationQuery = {
   page?: number;
+
   size?: number;
 };
 
