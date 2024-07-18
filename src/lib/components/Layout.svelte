@@ -11,14 +11,16 @@
   import BreadCrumb from "./BreadCrumb.svelte";
   import { type BreadCrumItemType } from "./types";
   import { navigate } from "svelte-routing";
+  import { logoutUser } from "../services/auth.service";
 
   const breadCrumItems: BreadCrumItemType[] = [
     { title: "Home", path: "/" },
     { title: "Config", path: "/Config" },
   ];
 
-  function handleMenu(path: string) {
-    navigate(path);
+  async function handleLogout() {
+    await logoutUser();
+    window.location.reload();
   }
 </script>
 
@@ -44,7 +46,9 @@
     </Button>
 
     <Dropdown>
-      <DropdownItem class="text-red-500">cerrar sesion</DropdownItem>
+      <DropdownItem class="text-red-500" on:click={handleLogout}
+        >cerrar sesion</DropdownItem
+      >
     </Dropdown>
   </div>
   <slot />
