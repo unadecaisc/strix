@@ -1,4 +1,4 @@
-import type { ApiPagination, GlobalSetting, Pricing } from "../types";
+import type { ApiPagination, Pricing } from "../types";
 import api from "./api-config";
 
 const DEFAULT_ENDPOINT = "/price";
