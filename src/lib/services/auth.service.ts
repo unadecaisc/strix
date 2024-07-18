@@ -8,25 +8,37 @@ import { getAuthInstance } from "./firebase.service";
 export async function authenticateUser(
   email: string,
   password: string,
-): Promise<UserCredential | null> {
+): Promise<Boolean> {
   const auth = getAuthInstance();
 
   return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       localStorage.setItem("uuid", userCredential.user.uid);
-      localStorage.setItem("refresh", userCredential.user.refreshToken);
-      return userCredential;
+
+      userCredential.user.getIdToken().then((token) => {
+        console.log("token:", token);
+        localStorage.setItem("token", token);
+      });
+
+      return true;
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, errorMessage);
-      return null;
+      localStorage.clear();
+      return false;
     });
+}
+
+export function getCurrentUser(): User | null {
+  const auth = getAuthInstance();
+
+  return auth.currentUser;
 }
 
 export async function logoutUser(): Promise<void> {
   const auth = getAuthInstance();
-
+  localStorage.clear();
   return auth.signOut();
 }

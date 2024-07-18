@@ -104,7 +104,6 @@
   }
 
   function handleCloseModal() {
-    console.log("close");
     openModal = false;
     currentSelected = defaultMailList;
     modalMode = "create";

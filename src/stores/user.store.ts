@@ -1,49 +1,16 @@
 import { writable } from "svelte/store";
-import { authenticateUser, logoutUser } from "../lib/services/auth.service";
-import {
-  type UserCredential,
-  type User as FirebaseUser,
-  onAuthStateChanged,
-  setPersistence,
-  browserSessionPersistence,
-} from "firebase/auth";
-import { getAuthInstance } from "../lib/services";
+import { logoutUser } from "../lib/services/auth.service";
+import { store } from "./store";
+import { getUser } from "../lib/services";
 
 export type User = {
-  firebaseUser?: FirebaseUser | null;
+  firebaseUser?: string | null;
+  [key: string]: any;
 };
 
-const initialUser: User = { firebaseUser: null };
-const userStore = writable<User>(initialUser);
+const initialUser: User = {
+  firebaseUser: localStorage.getItem("uuid"),
+};
+const userStore = store<User>(writable<User>(initialUser));
 
-onAuthStateChanged(getAuthInstance(), (firebaseUser) => {
-  userStore.set({ firebaseUser });
-  setPersistence(getAuthInstance(), browserSessionPersistence);
-});
-
-async function authenticate(email: string, password: string): Promise<boolean> {
-  try {
-    const userCredential: UserCredential | null = await authenticateUser(
-      email,
-      password,
-    );
-    if (!userCredential) {
-      return false;
-    }
-
-    userStore.set({
-      firebaseUser: userCredential.user,
-    });
-
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
-async function logOut() {
-  userStore.set(initialUser);
-  await logoutUser();
-}
-
-export { userStore, authenticate, logOut };
+export { userStore };
