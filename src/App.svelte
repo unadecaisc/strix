@@ -6,6 +6,7 @@
   import { onMount } from "svelte";
   import { userStore } from "./stores/user.store";
   import { get } from "svelte/store";
+  import FormularioPrecio from "$lib/components/formularioPrecio.svelte";
 
   let url = "";
 
