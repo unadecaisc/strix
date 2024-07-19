@@ -24,7 +24,7 @@ export async function getUsers(query?: GetUsersQuery) {
   }
 }
 
-export async function getUser(id: number) {
+export async function getUser(id: string) {
   try {
     const result = await api.get<User>(`${DEFAULT_ENDPOINT}/${id}`);
     return result.data;
