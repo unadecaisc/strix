@@ -1,23 +1,29 @@
 <script lang="ts">
   import { navigate } from "svelte-routing";
-  import { authenticate } from "../../stores/user.store";
   import { InfoCircleSolid } from "flowbite-svelte-icons";
   import { Card, Button, Label, Input, Alert } from "flowbite-svelte";
+  import { authenticateUser } from "../services/auth.service";
+  import { onMount } from "svelte";
+  import { get } from "svelte/store";
+  import { isAuthenticated } from "../../stores";
 
   let email = "";
   let password = "";
   let error = "";
+  const isAuth = get(isAuthenticated);
 
-  async function handleLogin() {
-    if (await authenticate(email, password)) {
-      navigate("/configuraciones");
-    } else {
-      error = "Datos Incorrectos";
-    }
+  function handleLogin() {
+    authenticateUser(email, password).then((res) => {
+      if (res) {
+        window.location.replace("/");
+      } else {
+        error = "Datos Incorrectos";
+      }
+    });
   }
 </script>
 
-<div class="container flex justify-center items-center h-screen">
+<div class=" py-10 flex justify-center items-center h-full w-full">
   <Card class="">
     <form
       class="flex flex-col space-y-6"

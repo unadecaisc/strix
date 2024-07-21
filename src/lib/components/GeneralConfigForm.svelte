@@ -1,6 +1,8 @@
 <script lang="ts">
   import { Input, Button, Label, Spinner } from "flowbite-svelte";
   import { createEventDispatcher, onMount } from "svelte";
+  import type { GlobalSetting } from "../types";
+  import { PenOutline } from "flowbite-svelte-icons";
 
   const dispatch = createEventDispatcher();
 
@@ -66,7 +68,9 @@
       ></Input>
     </Label>
     <div class="flex align-bottom">
-      <Button type="submit" size="sm" color="blue">{buttonText}</Button>
+      <Button type="submit" size="sm" color="blue"
+        ><PenOutline /> {buttonText}</Button
+      >
     </div>
   {/if}
 </form>
