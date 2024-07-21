@@ -11,6 +11,7 @@
   import GeneralConfigForm from "../../components/GeneralConfigForm.svelte";
   import type { TableHeader, TablePagination } from "../../types";
   import Table from "../../components/Table.svelte";
+  import MailinglistForm from "../../components/MailinglistForm.svelte";
 
   type Student = {
     name: string;
@@ -18,14 +19,7 @@
     active: boolean;
   };
 
-  let mailingList: Student[] = [
-    { name: "Juan Pérez", price: "CRC 2300", active: true },
-    { name: "Ana Gómez", price: "CRC 6700", active: true },
-    { name: "Carlos Ruiz", price: "CRC 234", active: false },
-    { name: "Luis Martínez", price: "CRC 5000", active: true },
-    { name: "María López", price: "CRC 2300", active: true },
-    { name: "Elena Rodríguez", price: "CRC 560", active: true },
-  ];
+  let mailingList: MailingList[] = [];
 
   const tableHeaders: TableHeader[] = [
     { name: "Nombre", field: "name" },
@@ -33,6 +27,13 @@
     { name: "Estado", field: "active" },
   ];
 
+  function reloadConfig() {
+    isLoading = true;
+    getConfig().then((res) => {
+      globalSetting = res ?? null;
+    });
+    isLoading = false;
+  }
   let pagination: TablePagination = {
     page: 1,
     size: 10,
