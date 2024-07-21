@@ -5,22 +5,25 @@ import Login from "./lib/pages/Login.svelte";
 export type RouterType = {
   path: string;
   component: any;
-  authRequired?: boolean;
+  isProtected?: boolean;
 };
 
 const routes: RouterType[] = [
   {
     path: "/",
     component: Home,
+    isProtected: true,
   },
   {
     path: "/configuraciones",
     component: Config,
+    isProtected: true,
   },
-  {
-    path: "/login",
-    component: Login,
-  },
+  // {
+  //   path: "/login",
+  //   component: Login,
+  //   isProtected: false,
+  // },
 ];
 
 export default routes;
