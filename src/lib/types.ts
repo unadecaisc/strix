@@ -196,3 +196,8 @@ export type TablePagination = {
   pages?: LinkType[];
 };
 export type TableData<T> = T[];
+
+export type PaginationQuery = {
+  page?: number;
+  size?: number;
+};

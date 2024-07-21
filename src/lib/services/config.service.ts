@@ -1,14 +1,9 @@
-import type { GlobalSetting } from "../types";
+import type { GlobalSetting, PaginationQuery } from "../types";
 import api from "./api-config";
 
 const DEFAULT_ENDPOINT = "/global-configs";
 
-export type paginationQuery = {
-  page?: number;
-  size?: number;
-};
-
-export type GetUsersQuery = paginationQuery & {};
+export type GetUsersQuery = PaginationQuery & {};
 
 export async function getConfig(query?: GetUsersQuery) {
   try {

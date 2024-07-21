@@ -6,8 +6,6 @@
   import Departments from "./configurations/Departments.svelte";
   import Users from "./configurations/Users.svelte";
   import Roles from "./configurations/Roles.svelte";
-  import Permissions from "./configurations/Permissions.svelte";
-  import Pricing from "./configurations/Pricing.svelte";
 
   const config: PageConfigType[] = [
     {
@@ -28,16 +26,8 @@
       component: Roles,
     },
     {
-      title: "Permisos",
-      component: Permissions,
-    },
-    {
       title: "Periodos",
       component: Periods,
-    },
-    {
-      title: "Precios",
-      component: Pricing,
     },
   ];
 </script>

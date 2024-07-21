@@ -1,14 +1,14 @@
-import type { ApiPagination, GlobalSetting, Pricing } from "../types";
+import type {
+  ApiPagination,
+  GlobalSetting,
+  PaginationQuery,
+  Pricing,
+} from "../types";
 import api from "./api-config";
 
 const DEFAULT_ENDPOINT = "/price";
 
-export type paginationQuery = {
-  page?: number;
-  size?: number;
-};
-
-export type GetPricingQuery = paginationQuery & {};
+export type GetPricingQuery = PaginationQuery & {};
 
 export async function getPricing(query?: GetPricingQuery) {
   try {

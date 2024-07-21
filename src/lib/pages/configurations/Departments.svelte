@@ -155,7 +155,7 @@
       >
         <TableBodyCell>{row.name}</TableBodyCell>
         <TableBodyCell>{row.code}</TableBodyCell>
-        <TableBodyCell>{row.pricingId}</TableBodyCell>
+        <!-- TODO: Add price value  -->
       </TableBodyRow>
     </Table>
   </div>
