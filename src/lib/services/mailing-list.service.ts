@@ -1,14 +1,14 @@
-import type { ApiPagination, MailingList, User } from "../types";
+import type {
+  ApiPagination,
+  MailingList,
+  PaginationQuery,
+  User,
+} from "../types";
 import api from "./api-config";
 
 const DEFAULT_ENDPOINT = "/mailing-list";
 
-export type paginationQuery = {
-  page?: number;
-  size?: number;
-};
-
-export type GetMailingListQuery = paginationQuery & {};
+export type GetMailingListQuery = PaginationQuery & {};
 
 export async function getMailingList(query?: GetMailingListQuery) {
   try {

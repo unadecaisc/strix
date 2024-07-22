@@ -24,9 +24,10 @@
   };
   let isLoading = false;
 
-  const title = formMode
-    ? "Crear Correo de Notificacion"
-    : "Actualizar Correo de Notificacion";
+  $: title =
+    formMode === "create"
+      ? "Crear Correo de Notificacion"
+      : "Actualizar Correo de Notificacion";
   function close() {
     dispatch("close");
     open = false;

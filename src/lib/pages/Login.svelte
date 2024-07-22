@@ -10,17 +10,21 @@
   let email = "";
   let password = "";
   let error = "";
-  const isAuth = get(isAuthenticated);
 
   function handleLogin() {
     authenticateUser(email, password).then((res) => {
       if (res) {
-        window.location.replace("/");
+        window.location.assign("/");
       } else {
         error = "Datos Incorrectos";
       }
     });
   }
+  onMount(() => {
+    if (get(isAuthenticated)) {
+      navigate("/");
+    }
+  });
 </script>
 
 <div class=" py-10 flex justify-center items-center h-full w-full">

@@ -1,14 +1,9 @@
-import type { ApiPagination, User } from "../types";
+import type { ApiPagination, PaginationQuery, User } from "../types";
 import api from "./api-config";
 
 const DEFAULT_ENDPOINT = "/users";
 
-export type paginationQuery = {
-  page?: number;
-  size?: number;
-};
-
-export type GetUsersQuery = paginationQuery & {
+export type GetUsersQuery = PaginationQuery & {
   search?: string;
 };
 

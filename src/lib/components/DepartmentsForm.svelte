@@ -22,18 +22,13 @@
   export let data: Department = {
     name: "",
     code: "",
-    pricingId: 0,
+    pricing: 0,
   };
-  let pricingList: Array<Pricing> | undefined = [];
+
   let isLoading = false;
 
   const title = formMode ? "Crear Departamento" : "Actualizar Departamento";
 
-  onMount(() => {
-    getPricing().then((res) => {
-      pricingList = res ?? [];
-    });
-  });
   function close() {
     dispatch("close");
     open = false;
@@ -47,7 +42,7 @@
       createDepartment({
         name: data.name,
         code: data.code,
-        pricingId: data.pricingId,
+        pricing: data.pricing,
       }).then((res) => {
         close();
       });
@@ -57,7 +52,7 @@
       updateDepartment(data.id as number, {
         name: data.name,
         code: data.code,
-        pricingId: data.pricingId,
+        pricing: data.pricing,
       }).then((res) => {
         if (res) {
           close();
@@ -74,15 +69,7 @@
     <Label>Codigo</Label>
     <Input bind:value={data.code} placeholder="Codigo" />
     <Label>Precio</Label>
-    <Select label="Precio" bind:value={data.pricingId}>
-      {#if pricingList}
-        {#each pricingList as pricing}
-          <option value={pricing.id}>{pricing.price}</option>
-        {/each}
-      {:else}
-        <option value={0}>Cargando...</option>
-      {/if}
-    </Select>
+    <Input bind:value={data.pricing} placeholder="Precio" />
   </form>
 
   <svelte:fragment slot="footer">

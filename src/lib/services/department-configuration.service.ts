@@ -1,15 +1,9 @@
-import type { ApiPagination, Department } from "../types";
+import type { ApiPagination, Department, PaginationQuery } from "../types";
 import api from "./api-config";
 
 const DEFAULT_ENDPOINT = "/departments";
 
-export type paginationQuery = {
-  page?: number;
-
-  size?: number;
-};
-
-export type GetDepartmentQuery = paginationQuery & {};
+export type GetDepartmentQuery = PaginationQuery & {};
 
 export async function getDepartment(query?: GetDepartmentQuery) {
   try {
