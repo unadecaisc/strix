@@ -12,11 +12,16 @@
   import { type BreadCrumItemType } from "./types";
   import { navigate } from "svelte-routing";
   import { logoutUser } from "../services/auth.service";
+  import { userStore } from "../../stores/user.store";
+  import { get } from "svelte/store";
 
   const breadCrumItems: BreadCrumItemType[] = [
     { title: "Home", path: "/" },
     { title: "Config", path: "/Config" },
   ];
+  const user = get(userStore);
+
+  console.log("◉ ▶ user:", user);
 
   async function handleLogout() {
     await logoutUser();
@@ -42,7 +47,8 @@
       <BreadCrumb items={breadCrumItems}></BreadCrumb>
     </div>
     <Button color="light" class="h-10">
-      <BarsOutline class="w-5 h-5 pt-1" /> Paquito fernandez
+      <BarsOutline class="w-5 h-5 pt-1" />
+      {user?.name}
     </Button>
 
     <Dropdown>

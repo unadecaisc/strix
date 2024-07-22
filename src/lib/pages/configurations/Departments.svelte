@@ -28,7 +28,7 @@
     id: undefined,
     name: "",
     code: "",
-    pricingId: 0,
+    pricing: 0,
   };
 
   let currentSelected: Department = { ...defaultDepartment };
@@ -40,7 +40,7 @@
   const tableHeaders: TableHeader[] = [
     { name: "Nombre", field: "name" },
     { name: "Código", field: "code" },
-    { name: "Precio", field: "pricingId" },
+    { name: "Precio", field: "pricing" },
   ];
 
   function reloadDepartments() {
@@ -83,37 +83,9 @@
 
   function handleCloseModal() {
     openModal = false;
-    currentSelected = { ...defaultDepartment };
+    currentSelected = defaultDepartment;
     modalMode = "create";
     reloadDepartments();
-  }
-
-  function handleSubmit(event: CustomEvent) {
-    const department: Department = event.detail;
-
-    if (modalMode === "create") {
-      createDepartment(department)
-        .then(() => {
-          success = "Departamento creado con éxito";
-          handleCloseModal();
-        })
-        .catch((err) => {
-          error = err.message;
-        });
-    } else {
-      if (department.id !== undefined) {
-        updateDepartment(department.id, department)
-          .then(() => {
-            success = "Departamento actualizado con éxito";
-            handleCloseModal();
-          })
-          .catch((err) => {
-            error = err.message;
-          });
-      } else {
-        error = "ID del departamento no definido.";
-      }
-    }
   }
 </script>
 
@@ -122,7 +94,6 @@
   formMode={modalMode}
   data={currentSelected}
   on:close={handleCloseModal}
-  on:submit={handleSubmit}
 />
 
 <div class="w-full h-full px-4 grid gap-3">

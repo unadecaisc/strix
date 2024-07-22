@@ -2,15 +2,19 @@ import { writable } from "svelte/store";
 import { logoutUser } from "../lib/services/auth.service";
 import { store } from "./store";
 import { getUser } from "../lib/services";
+import type { User } from "../lib/types";
 
-export type User = {
-  firebaseUser?: string | null;
-  [key: string]: any;
-};
+function getUserFromSessionStorage() {
+  try {
+    const user = sessionStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
+  } catch (error) {
+    return null;
+  }
+}
 
-const initialUser: User = {
-  firebaseUser: localStorage.getItem("uuid"),
-};
-const userStore = store<User>(writable<User>(initialUser));
+const userStore = store<User | null>(
+  writable<User | null>(getUserFromSessionStorage()),
+);
 
 export { userStore };

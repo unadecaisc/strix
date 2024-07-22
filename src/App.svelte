@@ -8,64 +8,85 @@
     browserSessionPersistence,
     onAuthStateChanged,
     setPersistence,
+    type User as FirebaseUser,
   } from "firebase/auth";
   import { getAuthInstance, getUser } from "./lib/services";
   import { get } from "svelte/store";
   import { isAuthenticated } from "./stores";
   import { onMount } from "svelte";
   import { userStore } from "./stores/user.store";
+  import { Spinner } from "flowbite-svelte";
+  import type { User } from "./lib/types";
 
   let url = "";
-  const user = get(userStore);
-  const isAuth = get(isAuthenticated);
-
-  console.log("◉ ▶ isAuth:", isAuth);
-
-  function setUserData() {
-    if (!user.user) {
-      getUser(localStorage.getItem("uuid") ?? "").then((user) => {
-        userStore.update((state) => {
-          return { ...state, user };
-        });
-      });
-    }
+  let user: User | null = get(userStore);
+  let isAuth: boolean = get(isAuthenticated);
+  let isLoading = false;
+  function clearAndRedirect() {
+    localStorage.clear();
+    sessionStorage.clear();
+    navigate("/");
   }
-
+  async function syncData(firebaseUser?: FirebaseUser | null) {
+    isLoading = true;
+    try {
+      if (firebaseUser) {
+        const token = await firebaseUser.getIdToken();
+        localStorage.setItem("uuid", firebaseUser.uid);
+        localStorage.setItem("token", token);
+        isAuthenticated.set(true);
+      }
+      if (!user) {
+        const user = await getUser(localStorage.getItem("uuid") ?? "");
+        userStore.set(user);
+      }
+    } catch (error) {
+      console.error(error);
+      clearAndRedirect();
+    }
+    isLoading = false;
+  }
   onAuthStateChanged(
     getAuthInstance(),
     (firebaseUser) => {
       setPersistence(getAuthInstance(), browserSessionPersistence);
-      if (firebaseUser) {
-        localStorage.setItem("uuid", firebaseUser.uid);
-      }
+
+      syncData(firebaseUser).then(() => {});
     },
     () => {
-      localStorage.removeItem("token");
+      clearAndRedirect();
     },
   );
 
-  onMount(() => {
+  onMount(async () => {
     if (!isAuth) {
       navigate("/login");
     }
-    setUserData();
   });
 </script>
 
-<Router {url}>
-  <Route path="/login">
-    <Login />
-  </Route>
-  {#if isAuth}
-    <Layout>
-      {#each routes as { component, path }}
-        <ProtectedRoute>
-          <Route {path}><svelte:component this={component} /></Route>
-        </ProtectedRoute>
-      {/each}
-      <Route path="*">
-        <h1 class="text-center text-2xl font-semibold">404 - Page Not Found</h1>
-      </Route>
-    </Layout>
-  {/if}
-</Router>
+{#if isLoading}
+  <div class="flex justify-center items-center h-screen">
+    <Spinner />
+  </div>
+{:else}
+  <Router {url} viewtransition={() => ({ fn: "fade", duration: 500 })}>
+    <Route path="/login">
+      <Login />
+    </Route>
+    {#if isAuth}
+      <Layout>
+        {#each routes as { component, path }}
+          <ProtectedRoute>
+            <Route {path}><svelte:component this={component} /></Route>
+          </ProtectedRoute>
+        {/each}
+        <Route path="*">
+          <h1 class="text-center text-2xl font-semibold">
+            404 - Page Not Found
+          </h1>
+        </Route>
+      </Layout>
+    {/if}
+  </Router>
+{/if}

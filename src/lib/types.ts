@@ -77,10 +77,9 @@ export type Department = {
   id?: number;
   name: string;
   code: string;
-  pricingId?: number;
+  pricing?: number;
   createdAt?: Date;
   updatedAt?: Date;
-  pricing?: Pricing;
   users?: User[];
   students?: StudentOnDepartment[];
   hours?: WorkHours[];
@@ -88,7 +87,7 @@ export type Department = {
 };
 
 export type User = {
-  id: number;
+  id?: number;
   name: string;
   email: string;
   phone: string;
