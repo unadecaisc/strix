@@ -10,7 +10,7 @@
   import type { Role, User } from "../types";
 
   import { createEventDispatcher, onMount } from "svelte";
-  import { createUser, updateUser } from "../services";
+  import { createUser, updateUser } from "../services/user.service";
 
   const dispatch = createEventDispatcher();
   export let open: boolean = false;
@@ -26,7 +26,7 @@
   };
 
   let isLoading = false;
-  $: title = formMode ? "Crear Usuario" : "Actualizar Usuario";
+  $: title = formMode == "create" ? "Crear Usuario" : "Actualizar Usuario";
 
   function close() {
     dispatch("close");
@@ -64,7 +64,15 @@
   }
 </script>
 
-<Modal {title} bind:open outsideclose shadow rounded class="w-[75%]">
+<Modal
+  {title}
+  bind:open
+  outsideclose
+  on:close={close}
+  shadow
+  rounded
+  class="w-[75%]"
+>
   <form class="items-center object-center">
     <Label>Nombre</Label>
     <Input bind:value={data.name} placeholder="Nombre" />

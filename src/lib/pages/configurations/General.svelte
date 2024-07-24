@@ -7,7 +7,7 @@
     Button,
     Heading,
   } from "flowbite-svelte";
-  import { PlusOutline } from "flowbite-svelte-icons";
+  import { PenOutline, PlusOutline } from "flowbite-svelte-icons";
   import { onMount } from "svelte";
   import { getConfig, updateConfig } from "../../services/config.service";
   import GeneralConfigForm from "../../components/GeneralConfigForm.svelte";
@@ -30,12 +30,14 @@
   let openModal = false;
   let modalMode: "create" | "update" = "create";
 
-  let defaultMailList: MailingList = {
+  const defaultMailList: MailingList = {
     email: "",
     name: "",
     active: true,
   };
+
   let currentSelected: MailingList = defaultMailList;
+
   $: pagination = {
     page: 1,
   } as TablePagination;
@@ -44,6 +46,7 @@
     { name: "Email", field: "email" },
     { name: "Nombre", field: "name" },
     { name: "Estado", field: "state" },
+    { name: "Acciones", field: "actions" },
   ];
 
   async function reloadConfig() {
@@ -143,16 +146,22 @@
       on:next={handleNext}
       on:previous={handlePrevious}
     >
-      <TableBodyRow
-        slot="row"
-        let:row
-        on:dblclick={() => handleUpdateModal(row)}
-      >
+      <TableBodyRow slot="row" let:row>
         <TableBodyCell>{row.email}</TableBodyCell>
         <TableBodyCell>{row.name}</TableBodyCell>
         <TableBodyCell>
           <Badge color={row.active ? "green" : "red"}
             >{row.active ? "Activo" : "Inactivo"}</Badge
+          >
+        </TableBodyCell>
+        <TableBodyCell>
+          <Button
+            size="xs"
+            color="primary"
+            on:click={() => handleUpdateModal(row)}
+          >
+            <PenOutline />
+            Editar</Button
           >
         </TableBodyCell>
       </TableBodyRow>

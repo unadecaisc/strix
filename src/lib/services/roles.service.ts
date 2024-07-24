@@ -17,7 +17,7 @@ export async function getRoles(query?: GetRoleQuery) {
   }
 }
 
-export async function createRole(body: Role) {
+export async function createRole(body: Partial<Role>) {
   try {
     const result = await api.post<Role>(DEFAULT_ENDPOINT, body);
 
@@ -27,7 +27,7 @@ export async function createRole(body: Role) {
   }
 }
 
-export async function updateRole(id: number, body: Role) {
+export async function updateRole(id: number, body: Partial<Role>) {
   try {
     const result = await api.put<Role>(`${DEFAULT_ENDPOINT}/${id}`, body);
 

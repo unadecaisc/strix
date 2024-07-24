@@ -10,13 +10,14 @@
     setPersistence,
     type User as FirebaseUser,
   } from "firebase/auth";
-  import { getAuthInstance, getUser } from "./lib/services";
   import { get } from "svelte/store";
   import { isAuthenticated } from "./stores";
   import { onMount } from "svelte";
   import { userStore } from "./stores/user.store";
   import { Spinner } from "flowbite-svelte";
   import type { User } from "./lib/types";
+  import { getUser } from "./lib/services/user.service";
+  import { getAuthInstance } from "./lib/services/firebase.service";
 
   let url = "";
   let user: User | null = get(userStore);

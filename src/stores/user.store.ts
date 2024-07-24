@@ -1,7 +1,5 @@
 import { writable } from "svelte/store";
-import { logoutUser } from "../lib/services/auth.service";
 import { store } from "./store";
-import { getUser } from "../lib/services";
 import type { User } from "../lib/types";
 
 function getUserFromSessionStorage() {

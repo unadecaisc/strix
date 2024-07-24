@@ -61,7 +61,7 @@ export type Role = {
   allowedPermissions: string[];
   createdAt: Date;
   updatedAt: Date;
-  users: User[];
+  users?: User[];
 };
 
 export type Pricing = {

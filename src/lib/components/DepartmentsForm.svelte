@@ -62,7 +62,15 @@
   }
 </script>
 
-<Modal {title} bind:open outsideclose shadow rounded class="w-[50%]">
+<Modal
+  {title}
+  bind:open
+  outsideclose
+  on:close={close}
+  shadow
+  rounded
+  class="w-[50%]"
+>
   <form class="items-center object-center">
     <Label>Nombre</Label>
     <Input bind:value={data.name} placeholder="Nombre" />
