@@ -9,33 +9,25 @@ import { getUser } from "./user.service";
 export async function authenticateUser(
   email: string,
   password: string,
-): Promise<Boolean> {
+): Promise<void> {
   const auth = getAuthInstance();
 
-  return signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      localStorage.setItem("uuid", userCredential.user.uid);
+  const userCredential: UserCredential = await signInWithEmailAndPassword(
+    auth,
+    email,
+    password,
+  );
 
-      getUser(userCredential.user.uid).then((user) => {
-        console.log("◉ ▶ getUser ▶ user:", user);
-        sessionStorage.setItem("user", JSON.stringify(user));
-      });
+  localStorage.setItem("uuid", userCredential.user.uid);
 
-      userCredential.user.getIdToken().then((token) => {
-        console.log("token:", token);
-        localStorage.setItem("token", token);
-      });
+  const user = await getUser(userCredential.user.uid);
 
-      return true;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-      localStorage.clear();
-      sessionStorage.clear();
-      return false;
-    });
+  sessionStorage.setItem("user", JSON.stringify(user));
+
+  const token = await userCredential.user.getIdToken();
+
+  localStorage.setItem("token", token);
+  console.log("token:", token);
 }
 
 export function getCurrentUser(): User | null {

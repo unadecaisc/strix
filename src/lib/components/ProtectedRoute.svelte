@@ -8,7 +8,7 @@
 
   onMount(() => {
     if (!isAuth) {
-      window.location.replace("/login");
+      window.location.replace("/");
     }
   });
 </script>

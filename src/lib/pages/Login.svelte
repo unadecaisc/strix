@@ -6,19 +6,22 @@
   import { onMount } from "svelte";
   import { get } from "svelte/store";
   import { isAuthenticated } from "../../stores";
+  import { loginHandlingError } from "../utils/login-errors";
 
   let email = "";
   let password = "";
-  let error = "";
+  $: error = "";
 
-  function handleLogin() {
-    authenticateUser(email, password).then((res) => {
-      if (res) {
-        window.location.assign("/");
-      } else {
-        error = "Datos Incorrectos";
-      }
-    });
+  console.log("◉ ▶ error:", error);
+
+  async function handleLogin() {
+    try {
+      await authenticateUser(email, password);
+      window.location.replace("/");
+    } catch (error: any) {
+      console.log("◉ ▶ handleLogin ▶ error:", error.message);
+      error = loginHandlingError(error.message);
+    }
   }
   onMount(() => {
     if (get(isAuthenticated)) {

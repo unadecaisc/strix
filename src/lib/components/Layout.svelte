@@ -21,8 +21,6 @@
   ];
   const user = get(userStore);
 
-  console.log("◉ ▶ user:", user);
-
   async function handleLogout() {
     await logoutUser();
     window.location.reload();
