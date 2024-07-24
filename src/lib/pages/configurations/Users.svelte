@@ -6,7 +6,7 @@
     Button,
     Heading,
   } from "flowbite-svelte";
-  import { PlusOutline } from "flowbite-svelte-icons";
+  import { PenOutline, PlusOutline } from "flowbite-svelte-icons";
   import { onMount } from "svelte";
   import DepartmentsForm from "../../components/DepartmentsForm.svelte";
   import type {
@@ -19,7 +19,7 @@
   import Table from "../../components/Table.svelte";
   import UserForm from "../../components/UserForm.svelte";
   import { getRoles } from "../../services/roles.service";
-  import { getUsers } from "../../services";
+  import { getUsers } from "../../services/user.service";
   type UserFormType = Partial<User> & { password: string };
   let users: User[] = [];
   let roles: Role[] = [];
@@ -29,14 +29,14 @@
   let modalMode: "create" | "update" = "create";
 
   let openModal = false;
-  let userForm = {
+  const defaultUser = {
     name: "",
     email: "",
     phone: "",
     password: "",
   };
 
-  let currentSelected: UserFormType = userForm;
+  let currentSelected: UserFormType = defaultUser;
 
   $: pagination = {
     page: 1,
@@ -82,9 +82,8 @@
   }
 
   function handleCloseModal() {
-    console.log("◉ ▶ handleCloseModal ▶ openModal:", openModal);
     openModal = false;
-    currentSelected = { ...userForm };
+    currentSelected = defaultUser;
     modalMode = "create";
     reloadData();
   }
@@ -130,8 +129,11 @@
           <Button
             size="xs"
             color="primary"
-            on:click={() => handleUpdateModal(row)}>Editar</Button
+            on:click={() => handleUpdateModal(row)}
           >
+            <PenOutline />
+            Editar
+          </Button>
           <!-- <Button size="xs" color="red">Eliminar</Button> -->
         </TableBodyCell>
       </TableBodyRow>

@@ -7,7 +7,7 @@
     Button,
     Heading,
   } from "flowbite-svelte";
-  import { PlusOutline } from "flowbite-svelte-icons";
+  import { PenOutline, PlusOutline } from "flowbite-svelte-icons";
   import { onMount } from "svelte";
   import { getConfig, updateConfig } from "../../services/config.service";
   import GeneralConfigForm from "../../components/GeneralConfigForm.svelte";
@@ -30,12 +30,14 @@
   let openModal = false;
   let modalMode: "create" | "update" = "create";
 
-  let defaultMailList: MailingList = {
+  const defaultMailList: MailingList = {
     email: "",
     name: "",
     active: true,
   };
+
   let currentSelected: MailingList = defaultMailList;
+
   $: pagination = {
     page: 1,
   } as TablePagination;
@@ -44,70 +46,64 @@
     { name: "Email", field: "email" },
     { name: "Nombre", field: "name" },
     { name: "Estado", field: "state" },
+    { name: "Acciones", field: "actions" },
   ];
 
-  function reloadConfig() {
-    isLoading = true;
-    getConfig().then((res) => {
-      globalSetting = res ?? null;
-    });
-    isLoading = false;
+  async function reloadConfig() {
+    const res = await getConfig();
+    globalSetting = res ?? null;
   }
 
-  function reloadMailingList() {
-    getMailingList({
+  async function reloadMailingList() {
+    const res = await getMailingList({
       page: pagination.page,
-    }).then((res) => {
-      mailingList = res?.data ?? [];
-      pagination.page = res?.page ?? 1;
-      pagination.next_page = res?.next_page;
-      pagination.prev_page = res?.prev_page;
     });
+    mailingList = res?.data ?? [];
+    pagination.page = res?.page ?? 1;
+    pagination.next_page = res?.next_page;
+    pagination.prev_page = res?.prev_page;
   }
 
   onMount(async () => {
-    reloadConfig();
-    reloadMailingList();
+    isLoading = true;
+    await Promise.all([reloadConfig(), reloadMailingList()]);
+    isLoading = false;
   });
 
-  function handleUpdate(e: CustomEvent<GlobalSetting>) {
+  async function handleUpdate(e: CustomEvent<GlobalSetting>) {
     isLoading = true;
-    updateConfig(e.detail)
-      .then(() => {
-        reloadConfig();
-      })
-      .then(() => {
-        error = null;
-        success = "Configuracion actualizada";
-      })
-      .catch((err) => {
-        error = err.message;
-      });
+    try {
+      const res = await updateConfig(e.detail);
+      globalSetting = res ?? null;
+      success = "Configuracion actualizada";
+    } catch (error: any) {
+      error = error.message;
+    }
     isLoading = false;
   }
-  function handleNext() {
+  async function handleNext() {
     pagination.page = pagination.next_page ?? 1;
-    reloadMailingList();
+    await reloadMailingList();
   }
-  function handlePrevious() {
+  async function handlePrevious() {
     pagination.page = pagination.prev_page ?? 1;
-    reloadMailingList();
+    await reloadMailingList();
   }
 
-  function handleFormModal() {
+  async function handleFormModal() {
     openModal = true;
   }
-  function handleUpdateModal(mailingList: MailingList) {
+  async function handleUpdateModal(mailingList: MailingList) {
     currentSelected = mailingList;
     modalMode = "update";
     openModal = true;
   }
 
-  function handleCloseModal() {
+  async function handleCloseModal() {
     openModal = false;
     currentSelected = defaultMailList;
     modalMode = "create";
-    reloadMailingList();
+    await reloadMailingList();
   }
 </script>
 
@@ -150,16 +146,22 @@
       on:next={handleNext}
       on:previous={handlePrevious}
     >
-      <TableBodyRow
-        slot="row"
-        let:row
-        on:dblclick={() => handleUpdateModal(row)}
-      >
+      <TableBodyRow slot="row" let:row>
         <TableBodyCell>{row.email}</TableBodyCell>
         <TableBodyCell>{row.name}</TableBodyCell>
         <TableBodyCell>
           <Badge color={row.active ? "green" : "red"}
             >{row.active ? "Activo" : "Inactivo"}</Badge
+          >
+        </TableBodyCell>
+        <TableBodyCell>
+          <Button
+            size="xs"
+            color="primary"
+            on:click={() => handleUpdateModal(row)}
+          >
+            <PenOutline />
+            Editar</Button
           >
         </TableBodyCell>
       </TableBodyRow>

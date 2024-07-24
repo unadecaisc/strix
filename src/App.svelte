@@ -10,31 +10,40 @@
     setPersistence,
     type User as FirebaseUser,
   } from "firebase/auth";
-  import { getAuthInstance, getUser } from "./lib/services";
   import { get } from "svelte/store";
   import { isAuthenticated } from "./stores";
   import { onMount } from "svelte";
   import { userStore } from "./stores/user.store";
   import { Spinner } from "flowbite-svelte";
   import type { User } from "./lib/types";
+  import { getUser } from "./lib/services/user.service";
+  import { getAuthInstance } from "./lib/services/firebase.service";
 
   let url = "";
   let user: User | null = get(userStore);
   let isAuth: boolean = get(isAuthenticated);
   let isLoading = false;
-  function clearAndRedirect() {
+
+  function clearSession() {
     localStorage.clear();
     sessionStorage.clear();
+  }
+  function clearAndRedirect() {
     navigate("/");
   }
+
+  function setAuthSession(firebaseUser: FirebaseUser, token: string) {
+    localStorage.setItem("uuid", firebaseUser.uid);
+    localStorage.setItem("token", token);
+    isAuthenticated.set(true);
+  }
+
   async function syncData(firebaseUser?: FirebaseUser | null) {
     isLoading = true;
     try {
       if (firebaseUser) {
         const token = await firebaseUser.getIdToken();
-        localStorage.setItem("uuid", firebaseUser.uid);
-        localStorage.setItem("token", token);
-        isAuthenticated.set(true);
+        setAuthSession(firebaseUser, token);
       }
       if (!user) {
         const user = await getUser(localStorage.getItem("uuid") ?? "");
@@ -46,17 +55,16 @@
     }
     isLoading = false;
   }
-  onAuthStateChanged(
-    getAuthInstance(),
-    (firebaseUser) => {
-      setPersistence(getAuthInstance(), browserSessionPersistence);
-
+  onAuthStateChanged(getAuthInstance(), (firebaseUser) => {
+    if (!firebaseUser) {
+      clearSession();
+      return;
+    }
+    setPersistence(getAuthInstance(), browserSessionPersistence);
+    if (!user) {
       syncData(firebaseUser).then(() => {});
-    },
-    () => {
-      clearAndRedirect();
-    },
-  );
+    }
+  });
 
   onMount(async () => {
     if (!isAuth) {
@@ -77,9 +85,7 @@
     {#if isAuth}
       <Layout>
         {#each routes as { component, path }}
-          <ProtectedRoute>
-            <Route {path}><svelte:component this={component} /></Route>
-          </ProtectedRoute>
+          <Route {path}><svelte:component this={component} /></Route>
         {/each}
         <Route path="*">
           <h1 class="text-center text-2xl font-semibold">
