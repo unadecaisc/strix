@@ -11,8 +11,10 @@
   import type { Role, User } from "../types";
 
   import { createEventDispatcher, onMount } from "svelte";
-  import { parseAllPermissions } from "../utils/permission-parser";
+
   import { createRole, updateRole } from "../services/roles.service";
+  import { getPermissions } from "../services/permissions.service";
+  import { getAvailablePersmissions } from "../utils/permission-parser";
 
   const dispatch = createEventDispatcher();
   export let open: boolean = false;
@@ -23,7 +25,7 @@
   export let data: Partial<Role> = {};
 
   let isLoading = false;
-  $: formattedPermissions = parseAllPermissions(permissions);
+  const formattedPermissions = getAvailablePersmissions();
 
   $: title = formMode == "create" ? "Crear Rol" : "Actualizar Rol";
 
@@ -54,8 +56,8 @@
   }
 </script>
 
-<Modal {title} bind:open outsideclose on:close={close} shadow rounded size="md">
-  <form class="items-center object-center">
+<div class="container">
+  <form class="flex flex-col space-y-3 mb-4">
     <Label>Nombre</Label>
     <Input bind:value={data.name} placeholder="Nombre" />
     <Label>Permisos</Label>
@@ -66,13 +68,10 @@
       placeholder="Selecciona los permisos"
     />
   </form>
-
-  <svelte:fragment slot="footer">
-    <Button color="primary" on:click={handleSubmit}>
-      {formMode === "create" ? "Crear" : "Actualizar"}
-      {#if isLoading}
-        <Spinner color="white" size="sm" />
-      {/if}
-    </Button>
-  </svelte:fragment>
-</Modal>
+  <Button size="sm" color="primary" on:click={handleSubmit}>
+    {formMode === "create" ? "Crear" : "Actualizar"}
+    {#if isLoading}
+      <Spinner color="white" size="sm" />
+    {/if}
+  </Button>
+</div>
