@@ -6,6 +6,8 @@
     Button,
     Heading,
     Badge,
+    Popover,
+    Indicator,
   } from "flowbite-svelte";
   import {
     CloseCircleOutline,
@@ -32,18 +34,16 @@
   let roles: Role[] = [];
   let error: string | null = null;
   let success: string | null = null;
-  let permissions: string[] = [];
   let isLoading = false;
-  let modalMode: "create" | "update" = "create";
-
-  $: openForm = false;
+  let formMode: "create" | "update" = "create";
   const defaultRole: Partial<Role> = {
     name: "",
     allowedPermissions: [],
   };
-
   let currentSelected: Partial<Role> = defaultRole;
 
+  $: openForm = false;
+  $: formTitle = formMode === "create" ? "Crear" : "Actualizar";
   $: pagination = {
     page: 1,
   } as TablePagination;
@@ -59,13 +59,8 @@
     roles = res?.data ?? [];
   }
 
-  async function reloadPermissions() {
-    const res = await getPermissions();
-    permissions = res ?? [];
-  }
-
   onMount(async () => {
-    await Promise.all([reloadRoles(), reloadPermissions()]);
+    await Promise.all([reloadRoles()]);
   });
 
   function handleNext() {
@@ -82,14 +77,14 @@
 
   function handleUpdateModal(role: Partial<Role>) {
     currentSelected = role;
-    modalMode = "update";
+    formMode = "update";
     openForm = true;
   }
 
   function handleCloseForm() {
     openForm = false;
     currentSelected = defaultRole;
-    modalMode = "create";
+    formMode = "create";
     reloadRoles().then();
   }
 
@@ -103,23 +98,9 @@
     <Heading tag="h3" class="mb-4">Configuración de Roles</Heading>
   </div>
   <div class="grid-flow-row">
-    {#if error}
-      <Alert type="error" dismissable>{error}</Alert>
-    {/if}
-    {#if success}
-      <Alert type="success" dismissable>{success}</Alert>
-    {/if}
     <div class="mt-3 mb-3">
-      <Button
-        size="xs"
-        color={openForm ? "red" : "primary"}
-        on:click={openForm ? handleCloseForm : handleFormModal}
-      >
-        {#if openForm}
-          <CloseCircleOutline /> Cerrar
-        {:else}
-          <PlusOutline /> Agregar
-        {/if}
+      <Button size="xs" color="primary" on:click={handleFormModal}>
+        <PlusOutline /> Agregar
       </Button>
     </div>
     <div class="grid grid-flow-col">
@@ -134,16 +115,14 @@
           <TableBodyRow slot="row" let:row as User>
             <TableBodyCell>{row.name}</TableBodyCell>
             <TableBodyCell>
-              <ul class="list-none gap-2">
-                {#each formatRolePermissions(row.allowedPermissions) as permission}
-                  <span class="font-bold">{permission}, </span>
-                  <!-- <li>
-                  <Badge color="indigo">{permission.name}</Badge>
-                </li> -->
-                {/each}
-
-                <!-- ... -->
-              </ul>
+              <Badge color="primary" class="font-bold p-1 " id="role-perms"
+                >{parsePermissionsToName(row.allowedPermissions[0]) + " "}
+                {#if row.allowedPermissions.length > 1}
+                  <Indicator color="none" class="p-2">
+                    +{row.allowedPermissions.length}
+                  </Indicator>
+                {/if}
+              </Badge>
             </TableBodyCell>
             <TableBodyCell>
               <Button
@@ -161,13 +140,17 @@
       </div>
       {#if openForm}
         <div class="col-span-6 p-4">
-          <Heading tag="h5" class="mb-4">Crear rol</Heading>
+          <Heading tag="h5" class="mb-4">{formTitle} rol</Heading>
+          <Alert type="info" dismissable>
+            Los permisos que indican <b>Ver</b>/<b>Crear</b> se refieren a ver o
+            modificar el contenido de las secciones indicadas, otros roles estan
+            predefinidos segun su funcion.
+          </Alert>
           <RoleForm
             data={currentSelected}
             open={openForm}
-            formMode={modalMode}
+            {formMode}
             on:close={handleCloseForm}
-            {permissions}
           ></RoleForm>
         </div>
       {/if}

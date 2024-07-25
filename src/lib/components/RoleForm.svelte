@@ -15,19 +15,16 @@
   import { createRole, updateRole } from "../services/roles.service";
   import { getPermissions } from "../services/permissions.service";
   import { getAvailablePersmissions } from "../utils/permission-parser";
+  import { CloseCircleOutline } from "flowbite-svelte-icons";
 
   const dispatch = createEventDispatcher();
   export let open: boolean = false;
   export let formMode: "create" | "update" = "create";
-  export let permissions: string[] = [];
 
-  console.log("◉ ▶ permissions:", permissions);
   export let data: Partial<Role> = {};
 
   let isLoading = false;
   const formattedPermissions = getAvailablePersmissions();
-
-  $: title = formMode == "create" ? "Crear Rol" : "Actualizar Rol";
 
   function close() {
     dispatch("close");
@@ -68,10 +65,15 @@
       placeholder="Selecciona los permisos"
     />
   </form>
-  <Button size="sm" color="primary" on:click={handleSubmit}>
-    {formMode === "create" ? "Crear" : "Actualizar"}
-    {#if isLoading}
-      <Spinner color="white" size="sm" />
-    {/if}
-  </Button>
+  <div class="flex flex-row justify-end space-x-2">
+    <Button size="sm" color="primary" on:click={handleSubmit}>
+      {formMode === "create" ? "Crear" : "Actualizar"}
+      {#if isLoading}
+        <Spinner color="white" size="sm" />
+      {/if}
+    </Button>
+    <Button size="sm" color="red" on:click={close}>
+      <CloseCircleOutline /> Cerrar
+    </Button>
+  </div>
 </div>
