@@ -47,12 +47,16 @@
     { name: "Correo", field: "" },
     { name: "Telefono", field: "" },
     { name: "Role", field: "" },
+    { name: "Departamento", field: "" },
     { name: "Accion", field: "" },
   ];
 
   function reloadData() {
     getUsers({ page: pagination.page }).then((res) => {
       users = res?.data ?? [];
+      pagination.page = res?.page ?? 1;
+      pagination.next_page = res?.next_page;
+      pagination.prev_page = res?.prev_page;
     });
   }
 
@@ -65,10 +69,12 @@
 
   function handleNext() {
     pagination.page = pagination.next_page ?? 1;
+    reloadData();
   }
 
   function handlePrevious() {
     pagination.page = pagination.prev_page ?? 1;
+    reloadData();
   }
 
   function handleFormModal() {
@@ -125,6 +131,9 @@
         <TableBodyCell>{row.email}</TableBodyCell>
         <TableBodyCell>{row.phone}</TableBodyCell>
         <TableBodyCell>{row.role.name}</TableBodyCell>
+        <TableBodyCell
+          >{row.department?.name ?? "Sin departamento Asignado"}</TableBodyCell
+        >
         <TableBodyCell>
           <Button
             size="xs"

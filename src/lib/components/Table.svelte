@@ -20,6 +20,7 @@
   const dispatch = createEventDispatcher();
   export let headers: TableHeader[] = [];
   export let pagination: TablePagination | null = null;
+
   export let data: TableData<any> = [];
 
   function handleRowClick(data: any) {
