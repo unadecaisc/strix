@@ -1,5 +1,6 @@
 import Config from "./lib/pages/Configuration.svelte";
 import Home from "./lib/pages/Home.svelte";
+import Requests from "$lib/pages/Requests.svelte";
 import Login from "./lib/pages/Login.svelte";
 
 export type RouterType = {
@@ -19,6 +20,13 @@ const routes: RouterType[] = [
     component: Config,
     isProtected: true,
   },
+
+  {
+    path: "/solicitudes",
+    component: Requests,
+    isProtected: true,
+  },
+
   // {
   //   path: "/login",
   //   component: Login,
