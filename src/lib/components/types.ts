@@ -11,3 +11,9 @@ export type PageConfigType = {
   component: ComponentType;
   open?: boolean;
 };
+
+export type PageRequestsType = {
+  title: string;
+  component: ComponentType;
+  open?: boolean;
+};
