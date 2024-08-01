@@ -11,21 +11,20 @@
   import type { Role, User } from "../types";
 
   import { createEventDispatcher, onMount } from "svelte";
-  import { parseAllPermissions } from "../utils/permission-parser";
+
   import { createRole, updateRole } from "../services/roles.service";
+  import { getPermissions } from "../services/permissions.service";
+  import { getAvailablePersmissions } from "../utils/permission-parser";
+  import { CloseCircleOutline } from "flowbite-svelte-icons";
 
   const dispatch = createEventDispatcher();
   export let open: boolean = false;
   export let formMode: "create" | "update" = "create";
-  export let permissions: string[] = [];
 
-  console.log("◉ ▶ permissions:", permissions);
   export let data: Partial<Role> = {};
 
   let isLoading = false;
-  $: formattedPermissions = parseAllPermissions(permissions);
-
-  $: title = formMode == "create" ? "Crear Rol" : "Actualizar Rol";
+  const formattedPermissions = getAvailablePersmissions();
 
   function close() {
     dispatch("close");
@@ -54,8 +53,8 @@
   }
 </script>
 
-<Modal {title} bind:open outsideclose on:close={close} shadow rounded size="md">
-  <form class="items-center object-center">
+<div class="container">
+  <form class="flex flex-col space-y-3 mb-4">
     <Label>Nombre</Label>
     <Input bind:value={data.name} placeholder="Nombre" />
     <Label>Permisos</Label>
@@ -66,13 +65,15 @@
       placeholder="Selecciona los permisos"
     />
   </form>
-
-  <svelte:fragment slot="footer">
-    <Button color="primary" on:click={handleSubmit}>
+  <div class="flex flex-row justify-end space-x-2">
+    <Button size="sm" color="primary" on:click={handleSubmit}>
       {formMode === "create" ? "Crear" : "Actualizar"}
       {#if isLoading}
         <Spinner color="white" size="sm" />
       {/if}
     </Button>
-  </svelte:fragment>
-</Modal>
+    <Button size="sm" color="red" on:click={close}>
+      <CloseCircleOutline /> Cerrar
+    </Button>
+  </div>
+</div>

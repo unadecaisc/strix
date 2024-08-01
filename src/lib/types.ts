@@ -200,3 +200,18 @@ export type PaginationQuery = {
   page?: number;
   size?: number;
 };
+
+export type PermissionType =
+  | "CONFIGURATIONS_READ"
+  | "CONFIGURATIONS_WRITE"
+  | "STUDENTS_READ"
+  | "STUDENTS_WRITE"
+  | "REQUESTS_READ"
+  | "REQUESTS_WRITE"
+  | "SCOLARSHIPS_READ"
+  | "SCOLARSHIPS_WRITE"
+  | "WORK_HOURS_READ"
+  | "WORK_HOURS_WRITE"
+  | "ASISTANT"
+  | "ADMIN"
+  | "BOSS";
