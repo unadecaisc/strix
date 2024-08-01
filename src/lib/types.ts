@@ -114,16 +114,16 @@ export type StudentOnDepartment = {
 };
 
 export type Student = {
-  id: number;
+  id?: number;
   name: string;
   email: string;
   phone: string;
   code: string;
-  createdAt: Date;
-  updatedAt: Date;
-  departments: StudentOnDepartment[];
-  workHours: WorkHours[];
-  ScholarshipPayroll: ScholarshipPayroll[];
+  createdAt?: Date;
+  updatedAt?: Date;
+  departments?: StudentOnDepartment[];
+  workHours?: WorkHours[];
+  ScholarshipPayroll?: ScholarshipPayroll[];
 };
 
 export type WorkHours = {
