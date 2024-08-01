@@ -14,11 +14,8 @@
   import { logoutUser } from "../services/auth.service";
   import { userStore } from "../../stores/user.store";
   import { get } from "svelte/store";
+  import { navigation } from "../../stores/navigation.store";
 
-  const breadCrumItems: BreadCrumItemType[] = [
-    { title: "Home", path: "/" },
-    { title: "Config", path: "/Config" },
-  ];
   const user = get(userStore);
 
   async function handleLogout() {
@@ -42,7 +39,7 @@
       </Dropdown>
     </div>
     <div class="grow mx-2">
-      <BreadCrumb items={breadCrumItems}></BreadCrumb>
+      <BreadCrumb items={$navigation}></BreadCrumb>
     </div>
     <Button color="light" class="h-10">
       <BarsOutline class="w-5 h-5 pt-1" />

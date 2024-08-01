@@ -6,7 +6,8 @@
   import Departments from "./configurations/Departments.svelte";
   import Users from "./configurations/Users.svelte";
   import Roles from "./configurations/Roles.svelte";
-
+  import type { LinkType } from "../../stores/navigation.store";
+  const link: LinkType = { title: "Configuraciones", path: "/configuraciones" };
   const config: PageConfigType[] = [
     {
       title: "General",
@@ -32,4 +33,4 @@
   ];
 </script>
 
-<PageContainer tabs={config}></PageContainer>
+<PageContainer tabs={config} {link}></PageContainer>
