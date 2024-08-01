@@ -6,7 +6,7 @@
     Button,
     Heading,
   } from "flowbite-svelte";
-  import { PlusOutline } from "flowbite-svelte-icons";
+  import { PlusOutline, PenOutline } from "flowbite-svelte-icons";
   import { onMount } from "svelte";
   import type { Student, TableHeader, TablePagination } from "../../types";
   import Table from "../../components/Table.svelte";
@@ -117,15 +117,22 @@
       on:next={handleNext}
       on:previous={handlePrevious}
     >
-      <TableBodyRow
-        slot="row"
-        let:row
-        on:dblclick={() => handleUpdateModal(row)}
-      >
+      <TableBodyRow slot="row" let:row>
         <TableBodyCell>{row.name}</TableBodyCell>
         <TableBodyCell>{row.email}</TableBodyCell>
         <TableBodyCell>{row.phone}</TableBodyCell>
         <TableBodyCell>{row.code}</TableBodyCell>
+        <TableBodyCell>
+          <Button
+            size="xs"
+            color="primary"
+            on:click={() => handleUpdateModal(row)}
+          >
+            <!-- svelte-ignore missing-declaration -->
+            <PenOutline />
+            Editar
+          </Button>
+        </TableBodyCell>
       </TableBodyRow>
     </Table>
   </div>
