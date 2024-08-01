@@ -37,7 +37,7 @@ export async function createUser(data: any) {
   }
 }
 
-export async function updateUser(id: number, data: any) {
+export async function updateUser(id: string, data: any) {
   try {
     const result = await api.put<User>(`${DEFAULT_ENDPOINT}/${id}`, data);
     return result.data;

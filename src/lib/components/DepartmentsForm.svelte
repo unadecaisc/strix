@@ -7,10 +7,9 @@
     Select,
     Spinner,
   } from "flowbite-svelte";
-  import type { Department, Pricing } from "../types";
+  import type { Department } from "../types";
 
-  import { createEventDispatcher, onMount } from "svelte";
-  import { getPricing } from "../services/pricing.service";
+  import { createEventDispatcher } from "svelte";
   import {
     createDepartment,
     updateDepartment,
@@ -42,7 +41,7 @@
       createDepartment({
         name: data.name,
         code: data.code,
-        pricing: data.pricing,
+        pricing: Number(data.pricing),
       }).then((res) => {
         close();
       });
@@ -52,7 +51,7 @@
       updateDepartment(data.id as number, {
         name: data.name,
         code: data.code,
-        pricing: data.pricing,
+        pricing: Number(data.pricing),
       }).then((res) => {
         if (res) {
           close();
@@ -77,7 +76,7 @@
     <Label>Codigo</Label>
     <Input bind:value={data.code} placeholder="Codigo" />
     <Label>Precio</Label>
-    <Input bind:value={data.pricing} placeholder="Precio" />
+    <Input type="number" bind:value={data.pricing} placeholder="Precio" />
   </form>
 
   <svelte:fragment slot="footer">

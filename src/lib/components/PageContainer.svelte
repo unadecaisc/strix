@@ -1,8 +1,17 @@
 <script lang="ts">
   import { Tabs, TabItem } from "flowbite-svelte";
   import type { PageConfigType } from "./types";
+  import { onMount } from "svelte";
+  import { navigation, type LinkType } from "../../stores/navigation.store";
+  import { updateNavigation } from "../actions/navigationt";
 
   export let tabs: PageConfigType[] = [];
+  export let link: LinkType = { title: "", path: "" };
+  onMount(() => {});
+
+  function updateSection(node: HTMLElement, { title }: { title: string }) {
+    updateNavigation(node, { title }, link);
+  }
 </script>
 
 <Tabs
@@ -13,9 +22,9 @@
 >
   {#each tabs as { title, component, open }}
     <TabItem {open} {title}>
-      <svelte:fragment>
+      <div use:updateSection={{ title }}>
         <svelte:component this={component} class="w-full" />
-      </svelte:fragment>
+      </div>
     </TabItem>
   {/each}
 </Tabs>

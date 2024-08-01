@@ -7,6 +7,7 @@
     Heading,
   } from "flowbite-svelte";
   import { PlusOutline, PenOutline } from "flowbite-svelte-icons";
+
   import { onMount } from "svelte";
   import type { Student, TableHeader, TablePagination } from "../../types";
   import Table from "../../components/Table.svelte";

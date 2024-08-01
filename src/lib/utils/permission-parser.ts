@@ -1,46 +1,26 @@
-import { A } from "flowbite-svelte";
-
-const replacingWords: Record<string, string> = {
+const permissionsList: Record<string, string> = {
+  CONFIGURATIONS_READ: "Ver configuraciones",
+  CONFIGURATIONS_WRITE: "Editar configuraciones",
+  STUDENTS_READ: "Ver estudiantes",
+  STUDENTS_WRITE: "Editar estudiantes",
+  SCOLARSHIPS_READ: "Ver becas",
+  SCOLARSHIPS_WRITE: "Editar becas",
+  REQUESTS_READ: "Ver solicitudes",
+  REQUESTS_WRITE: "Editar solicitudes",
+  WORK_HOURS_READ: "Ver horas beca",
+  WORK_HOURS_WRITE: "Editar horas beca",
   ADMIN: "Administrador",
-  USER: "Usuario",
-  GLOBAL: "Global",
-  ROLES: "Roles",
-  PERIODS: "Períodos",
-  DEPARTMENTS: "Departamentos",
-  MAILING: "Correos",
-  LISTS: "",
-  LIST: "",
-  USERS: "Usuarios",
-  STUDENTS: "Estudiantes",
-  SETTINGS: "Configuraciones",
-  SETTING: "Configuración",
-  READ: "Lectura",
-  WRITE: "Escritura",
-  DELETE: "Eliminación",
-  CREATE: "Creación",
-  UPDATE: "Actualización",
+  ASISTANT: "Asistente",
+  BOSS: "Jefe de departamento",
 };
-export function parsePermission(permission: string): {
-  value: string;
-  name: string;
-} {
-  const name = permission
-    .split("_")
-    .map((word) => {
-      if (word) {
-        const newWord = word[0].toUpperCase() + word.slice(1);
-        return replacingWords[newWord] ?? newWord;
-      }
-      return "";
-    })
-    .reverse()
-    .join(" ");
 
-  return { value: permission, name };
+export function parsePermissionsToName(permission: string): string {
+  return permissionsList[permission];
 }
 
-export function parseAllPermissions(
-  permissions: string[],
-): { value: string; name: string }[] {
-  return permissions.map(parsePermission);
+export function getAvailablePersmissions(): { value: string; name: string }[] {
+  return Object.keys(permissionsList).map((key: string) => ({
+    value: key,
+    name: permissionsList[key],
+  }));
 }

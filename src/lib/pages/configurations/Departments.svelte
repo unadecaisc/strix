@@ -6,16 +6,13 @@
     Button,
     Heading,
   } from "flowbite-svelte";
-  import { PlusOutline } from "flowbite-svelte-icons";
+  import { PenOutline, PlusOutline } from "flowbite-svelte-icons";
   import { onMount } from "svelte";
-  import {
-    getDepartment,
-    createDepartment,
-    updateDepartment,
-  } from "../../services/department.service";
+  import { getDepartment } from "../../services/department.service";
   import DepartmentsForm from "../../components/DepartmentsForm.svelte";
   import type { Department, TableHeader, TablePagination } from "../../types";
   import Table from "../../components/Table.svelte";
+  import { CRC } from "../../utils/currency";
 
   let departments: Department[] = [];
   let error: string | null = null;
@@ -41,6 +38,8 @@
     { name: "Nombre", field: "name" },
     { name: "Código", field: "code" },
     { name: "Precio", field: "pricing" },
+    { name: "Jefe", field: "jefe" },
+    { name: "Acciones", field: "" },
   ];
 
   function reloadDepartments() {
@@ -126,6 +125,24 @@
       >
         <TableBodyCell>{row.name}</TableBodyCell>
         <TableBodyCell>{row.code}</TableBodyCell>
+        <TableBodyCell>{CRC(row.pricing)}</TableBodyCell>
+        <TableBodyCell
+          >{row.users.length === 0
+            ? "Sin jefe Asignado "
+            : row.users[0].name}</TableBodyCell
+        >
+        <TableBodyCell>
+          <Button
+            size="xs"
+            color="primary"
+            on:click={() => handleUpdateModal(row)}
+          >
+            <PenOutline />
+            Editar
+          </Button>
+          <!-- <Button size="xs" color="red">Eliminar</Button> -->
+        </TableBodyCell>
+
         <!-- TODO: Add price value  -->
       </TableBodyRow>
     </Table>
