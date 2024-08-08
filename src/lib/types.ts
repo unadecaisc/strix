@@ -107,10 +107,10 @@ export type StudentOnDepartment = {
   studentId: number;
   departmentId: number;
   status: RequestStatus;
-  createdAt: Date;
-  updatedAt: Date;
-  student: Student;
-  department: Department;
+  createdAt?: Date;
+  updatedAt?: Date;
+  student?: Student;
+  department?: Department;
 };
 
 export type Student = {
