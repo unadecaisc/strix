@@ -117,11 +117,7 @@
       on:next={handleNext}
       on:previous={handlePrevious}
     >
-      <TableBodyRow
-        slot="row"
-        let:row
-        on:dblclick={() => handleUpdateModal(row)}
-      >
+      <TableBodyRow slot="row" let:row>
         <TableBodyCell>{row.name}</TableBodyCell>
         <TableBodyCell>{row.email}</TableBodyCell>
         <TableBodyCell>{row.phone}</TableBodyCell>
